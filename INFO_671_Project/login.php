@@ -9,19 +9,64 @@ and open the template in the editor.
         <style> label {color:graytext} </style>
         <meta charset="UTF-8">
         <title></title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
-    <script>
-        function validateEmail() {
-            var x = document.forms["loginForm"]["userName"].value;
-            var atpos = x.indexOf("@");
-            var dotpos = x.lastIndexOf(".");
-            if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
-                alert("Not a valid e-mail address");
-            return false;
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            
+            $( function() {
+                $( "#datepicker" ).datepicker();
+            } );
+            
+            debugger;
+            function validateEmail() {
+                var x = document.forms["loginForm"]["userName"].value;
+                var atpos = x.indexOf("@");
+                var dotpos = x.lastIndexOf(".");
+                if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
+                    alert("Not a valid e-mail address");
+                return false;
+                }
             }
-        }
-    </script>
+
+            function validateSignUpForm() {
+                var first_name = document.forms["signUpForm"]["firstName"].value;
+                var last_name = document.forms["signUpForm"]["lastName"].value;
+                var insurance_company = document.forms["signUpForm"]["insuranceCompany"].value;
+                var insurance_type = document.forms["signUpForm"]["insuranceType"].value;
+                var e_id = document.forms["signUpForm"]["eMailID"].value;
+                var atpos = e_id.indexOf("@");
+                var dotpos = e_id.lastIndexOf(".");
+                var pass = document.forms["signUpForm"]["password"].value;
+                var pass_confirm = document.forms["signUpForm"]["confirmPassword"].value;
+                if (first_name == "") {
+                    alert("First Name must be filled out");
+                    return false;
+                }
+                else if (last_name == "") {
+                    alert("Last Name must be filled out");
+                    return false;
+                }
+                else if (insurance_company == "") {
+                    alert("Insurance Company Name must be filled out");
+                    return false;
+                }
+                else if (insurance_type == "") {
+                    alert("Insurance Type must be filled out");
+                    return false;
+                }
+                else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=e_id.length) {
+                    alert("Not a valid e-mail address");
+                    return false;
+                }
+                else if(pass == "" && pass_confirm == "" && pass != pass_confirm) {
+                    alert("Passwords do not match");
+                    return false;            
+                }
+            }
+        </script>
     
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
@@ -54,7 +99,7 @@ and open the template in the editor.
                 </div>
             </div>
         </form>
-        <form name="signUpForm">
+        <form name="signUpForm" action="insertUser.php" onsubmit="return validateSignUpForm()" method="post">
             <div class="col-sm-offset-3 col-sm-4">
                 <h1 style="color: background;font-family: Arial"> Sign Up </h1>
                 <div>
@@ -65,9 +110,14 @@ and open the template in the editor.
                     <label for="lastName"> Last Name</label>
                     <input type="text" name="lastName" class="form-control" placeholder="e.g Smith">
                 </div>
-                <div>
+                <!--<div>
                     <label for="birthDate"> Birth Date</label>
                     <input type="text" name="birthDate" class="form-control" placeholder="e.g mm/dd/yyy">
+                </div>-->
+                <div>
+                    <label for="birthDate"> Birth Date</label>
+                    <input type="text" name="birthDate" id="datepicker" class="form-control" placeholder="e.g mm/dd/yyy">
+                    <!--<p>Date: <input type="text" id="datepicker"></p>-->
                 </div>
                 <div>
                     <label for="insuranceCompany"> Insurance Company</label>
@@ -83,11 +133,11 @@ and open the template in the editor.
                 </div>
                 <div>
                     <label for="password"> Enter Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="******">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="******">
                 </div>
                 <div>
                     <label for="confirmPassword"> Confirm Password</label>
-                    <input type="password" name="confirmPassword" class="form-control" placeholder="******">
+                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="******">
                 </div>
                 <div style = "margin-top:10px">
                     <input class="btn btn-default"  type="submit" value="Sign Up"> 
