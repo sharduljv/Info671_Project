@@ -31,16 +31,21 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVBCYmr5045H4rYmjaKybJBcg10_vmVHc&libraries=places"></script>
+    
     <script>
         var map;
         var filters = {clinic:false, hospital:false, pharm:false};
         var gmarkers1 = [];
-        var hospital_markers = [];
-        var clinic_markers = [];
-        var pharm_markers = [];
         var infowindow = new google.maps.InfoWindow({
             content: ''
         });
+
+        var markers1 = [
+          ['0', 'Hospital1', 39.9567, -75.1896, 'Hospital'],
+          ['1', 'Hospital2', 39.9568, -75.1895, 'Hospital'],
+          ['2', 'Pharmaceutical', 39.9569, -75.1894, 'Pharmaceutical'],
+          ['3', 'Specialist', 39.9570, -75.1893, 'Specialist']
+        ];
 
         // retrieve markers from database 
 
@@ -60,7 +65,7 @@
             marker1 = new google.maps.Marker({
               title: title,
               position: pos,
-              category: category,
+              category: cat,
               map: map
             });
             gmarkers1.push(marker1);
@@ -69,11 +74,11 @@
         function initMap() {
             var center = new google.maps.LatLng(39.9567472, -75.1896485);
             var mapOptions = {
-              zoom: 12,
+              zoom: 15,
               center: center
             }
 
-            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
             for (i = 0; i < markers1.length; i++){
               addMarker(markers1[i])
             }
@@ -89,7 +94,9 @@
               marker.setVisible(false);
             }
           }
-        }       
+        }
+
+        initMap();       
 
     </script>
     
@@ -101,9 +108,9 @@
                 </div>
                 <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Hospital</a></li>
-                <li><a href="#">Pharmaceutical</a></li>
-                <li><a href="#">Specialist</a></li>
+                <li><button onclick="filterMarkers(this.value);" value="Hospital">Hospital</button></li>
+                <li><button onclick="filterMarkers(this.value);" value="Pharmaceutical">Pharmaceutical</button></li>
+                <li><button onclick="filterMarkers(this.value);" value="Specialist">Specialist</button></li>
                 </ul>
             </div>
         </nav>
